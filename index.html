@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>my spotify</title>
+    <title>Document</title>
     <style>
         body {
             background: #fff;
@@ -18,6 +18,7 @@
         }
 
         .toggle-btn {
+            width: 100%;
             margin: 20px;
             padding: 10px 20px;
             cursor: pointer;
@@ -38,11 +39,16 @@
 
 <body>
     <button class="toggle-btn" onclick="toggleMode()">Dark Mode</button>
-    <iframe id="spotify-frame" style="border-radius:12px"
-        src="https://open.spotify.com/embed/playlist/03sCUwvkTEUpDi2uQLNugv?utm_source=generator&theme=0" width="100%"
-        height="100%" frameBorder="0" allowfullscreen=""
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <iframe id="spotify-frame" src="https://open.spotify.com/embed/track/xyz" width="300" height="80"></iframe>
     <script>
+        function setIframeHeight() {
+            const btn = document.querySelector('.toggle-btn');
+            const iframe = document.getElementById('spotify-frame');
+            const btnRect = btn.getBoundingClientRect();
+            const space = window.innerHeight - btnRect.bottom - 20; // 20px margin
+            iframe.style.height = (space > 0 ? space : 0) + 'px';
+        }
+
         function toggleMode() {
             document.body.classList.toggle('dark-mode');
             const btn = document.querySelector('.toggle-btn');
@@ -59,7 +65,11 @@
                 src = src.replace(/&theme=0/g, '');
             }
             iframe.src = src;
+            setIframeHeight();
         }
+
+        window.addEventListener('resize', setIframeHeight);
+        window.addEventListener('DOMContentLoaded', setIframeHeight);
     </script>
 </body>
 
